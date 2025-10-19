@@ -1,0 +1,29 @@
+# 机器人任务名称
+name: Sync Upstream (from Uniswap/v4-core)
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Sync Upstream Repository
+        uses: repo-sync/github-sync@v2
+        with:
+          # ⚠️ 关键：原始仓库地址
+          upstream_repository: "Uniswap/v4-core"
+          
+          # ⚠️ 关键：原始仓库的主分支
+          upstream_branch: "main"
+          
+          # ⚠️ 关键：你的 fork 仓库的目标分支
+          target_branch: "main"
+          
+          token: ${{ secrets.GITHUB_TOKEN }}
